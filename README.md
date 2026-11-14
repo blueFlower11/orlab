@@ -2,18 +2,19 @@
 
 Repozitorij laboratorijske vježbe FER kolegija Otvoreno računarstvo.
 
-### Verzija v1.0
+### Verzija v2.0
 
 Jezik: hrvatski
 
 ## Skup podataka
 
-Direktorij [`skup_podataka_bica/`](skup_podataka_bica/) sadrži normaliziranu PostgreSQL bazu i izvorne datoteke za skup **Izmišljena bića**:
+Repozitorij sadrži normaliziranu PostgreSQL bazu (mapa [`baza/`](baza/)) i izvorne datoteke za skup **Izmišljena bića**:
 
 - 15 zapisa, s najmanje 10 atributa po zapisu u CSV-u i JSON-u;
 - 10 usmjerenih roditelj–dijete veza raspoređenih u pet razvojnih nizova;
-- SQL shemu i podatke, upite za izvoz, automatiziranu skriptu, CSV/JSON snimke i početni SQL ispis baze;
-- metapodatke, opis modela i upute za provjeru u `skup_podataka_bica/README.md`.
+- SQL shemu i podatke, upite za izvoz i automatiziranu skriptu (`baza/`);
+- CSV/JSON snimke (`izmisljena-bica.csv`, `izmisljena-bica.json`) i SQL ispis baze (`dump.sql`);
+- web sučelje 2. vježbe i strojno čitljive metapodatke u obliku JSON Schema (mapa [`stranica/`](stranica/)).
 
 Bića i njihovi nazivi/opisi izvorno su osmišljeni za ovu vježbu. Razvojni nizovi tematski su nadahnuti igrama Pokémon, ali skup ne sadrži službene likove, slike ni službene podatke te nije povezan s vlasnicima te franšize.
 
@@ -27,17 +28,48 @@ Bića i njihovi nazivi/opisi izvorno su osmišljeni za ovu vježbu. Razvojni niz
 - vrsta-uvijeta-razvoja - posebna karakteristika koja opisuje uvijet razvoja bica
 - vrsta-bica - detalji o bicu, naziv, prosjecka velicina i poveznica sa ostalim velicinama
 
-## Pokretanje i provjera
+## Web sučelje
 
-Iz mape `skup_podataka_bica/` postavite `DATABASE_URL` u svom lokalnom okruženju, a zatim pokrenite:
+Sve datoteke 2. vježbe nalaze se u mapi [`stranica/`](stranica/):
+
+- `stranica/index.html` – opis skupa, poveznice za preuzimanje cijelog skupa (CSV, JSON s datotečnog sustava) i `stranica/schema.json` te poveznica na tablicu.
+- `stranica/datatable.html` + `stranica/static/datatable.js` – HTML tablica koja se puni asinkrono (`fetch`) iz baze, obrazac za filtriranje (po svim atributima ili po odabranom atributu) i preuzimanje trenutnog prikaza u CSV i JSON obliku.
+- `stranica/server/server.js` – pozadinski poslužitelj (Node.js, Express + `pg`). Filtriranje se obavlja na poslužitelju SQL upitom s `ILIKE` nad izravnanim prikazom iz `baza/izvoz_csv.sql`.
+
+API:
+
+| Putanja | Opis |
+| --- | --- |
+| `GET /api/bica?q=&atribut=` | filtrirani zapisi kao JSON za tablicu |
+| `GET /api/bica.csv?q=&atribut=` | preuzimanje filtriranog prikaza (CSV) |
+| `GET /api/bica.json?q=&atribut=` | preuzimanje filtriranog prikaza (JSON) |
+
+Bez `atribut` pretražuje se po svim atributima; prazan `q` vraća sve zapise.
+
+## Pokretanje
+
+U korijenu repozitorija postavite `DATABASE_URL` u okruženju ili u datoteci `.env` (ne sprema se u repozitorij), zatim:
 
 ```bash
-psql "$DATABASE_URL" -v ON_ERROR_STOP=1 -f shema.sql -f podaci.sql
-./izvezi.sh
-python3 provjeri_izvoz.py
+cd stranica
+npm install
+npm start
 ```
 
-Ne spremajte vezu baze u repozitorij. CSV i JSON koji su već uključeni u mapu su početne snimke; `izvezi.sh` stvara izlaz iz stvarne PostgreSQL baze te SQL ispis sheme `lab_bica`. Izvoz iz stvarne Neon baze nije potvrđen u ovom okruženju.
+i otvorite <http://localhost:3000>.
+
+Baza se postavlja i izvozi ovako:
+
+```bash
+psql "$DATABASE_URL" -v ON_ERROR_STOP=1 -f baza/shema.sql -f baza/podaci.sql
+baza/izvezi.sh
+```
+
+## Promjene u odnosu na v1.0
+
+- dodana mapa `stranica/`: `index.html`, `datatable.html`, `static/` (klijentski kôd) i `server/` + `package.json` (pozadinski kôd, Node.js/Express);
+- dodana JSON Schema `stranica/schema.json`;
+- README ažuriran (struktura repozitorija, pokretanje web sučelja).
 
 ## Licencija
 

@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="hr">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Izmišljena bića – tablica i filtriranje</title>
+    <meta name="description" content="Tablični prikaz skupa podataka Izmišljena bića s pretraživanjem po svim ili odabranom atributu.">
+    <meta name="author" content="Viktorija Sturlic-Tupek">
+    <link rel="stylesheet" href="static/stil.css">
+</head>
+<body>
+<header class="zaglavlje">
+    <div class="zaglavlje-sadrzaj siroko">
+        <p class="nadnaslov"><a href="index.html">← Početna</a></p>
+        <h1>Izmišljena bića – tablica</h1>
+        <p>Podaci se dohvaćaju iz baze bez ponovnog učitavanja stranice.</p>
+    </div>
+</header>
+
+<main class="siroko">
+    <form id="obrazac" class="kartica">
+        <label for="q">Traži</label>
+        <input type="text" id="q" name="q" placeholder="npr. Šumski rub">
+
+        <label for="atribut">u atributu</label>
+        <select id="atribut" name="atribut">
+            <option value="">Svi atributi</option>
+            <option value="kataloski_broj">Kataloški broj</option>
+            <option value="naziv">Naziv</option>
+            <option value="opis">Opis</option>
+            <option value="visina_cm">Visina (cm)</option>
+            <option value="masa_kg">Masa (kg)</option>
+            <option value="staniste">Stanište</option>
+            <option value="rijetkost">Rijetkost</option>
+            <option value="primarni_tip">Primarni tip</option>
+            <option value="sekundarni_tip">Sekundarni tip</option>
+            <option value="sposobnosti">Sposobnosti</option>
+            <option value="zdravlje">Zdravlje</option>
+            <option value="napad">Napad</option>
+            <option value="obrana">Obrana</option>
+            <option value="specijalni_napad">Specijalni napad</option>
+            <option value="specijalna_obrana">Specijalna obrana</option>
+            <option value="brzina">Brzina</option>
+            <option value="roditelji">Roditelji</option>
+            <option value="djeca">Djeca</option>
+            <option value="uvjeti_razvoja">Uvjeti razvoja</option>
+        </select>
+
+        <button type="submit">Filtriraj</button>
+        <button type="reset" class="gumb-obrub">Poništi</button>
+    </form>
+
+    <details class="kartica odabir-stupaca">
+        <summary>Prikazani stupci</summary>
+        <fieldset>
+            <legend>Odaberite atribute koji se prikazuju u tablici i preuzimanjima</legend>
+            <div id="kucice-stupaca" class="kucice-stupaca"></div>
+            <button type="button" id="svi-stupci" class="gumb-obrub gumb-mali">Prikaži sve</button>
+        </fieldset>
+    </details>
+
+    <div class="traka">
+        <span id="status" role="status">Učitavanje…</span>
+        <span class="traka-preuzimanje">
+            Preuzmi trenutni prikaz:
+            <a id="preuzmi-csv" class="gumb gumb-mali" href="/api/bica.csv">CSV</a>
+            <a id="preuzmi-json" class="gumb gumb-mali" href="/api/bica.json">JSON</a>
+        </span>
+    </div>
+
+    <div class="omot-tablice">
+        <table id="tablica">
+            <thead></thead>
+            <tbody></tbody>
+        </table>
+    </div>
+</main>
+<script src="static/datatable.js"></script>
+</body>
+</html>

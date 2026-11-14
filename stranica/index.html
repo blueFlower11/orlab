@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="hr">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Izmišljena bića – otvoreni skup podataka</title>
+    <meta name="description" content="Otvoreni skup podataka o 15 izvorno osmišljenih izmišljenih bića: staništa, rijetkost, tipovi, sposobnosti, osnovne statistike i razvojni nizovi.">
+    <meta name="author" content="Viktorija Sturlic-Tupek">
+    <meta name="keywords" content="otvoreni podaci, izmišljena bića, CSV, JSON, JSON Schema, Otvoreno računarstvo">
+    <link rel="stylesheet" href="static/stil.css">
+</head>
+<body>
+<header class="zaglavlje">
+    <div class="zaglavlje-sadrzaj">
+        <p class="nadnaslov">Otvoreni skup podataka · v2.0</p>
+        <h1>Izmišljena bića</h1>
+        <p>Laboratorijska vježba kolegija Otvoreno računarstvo (FER). Jezik: hrvatski.</p>
+        <a class="gumb gumb-svijetli" href="datatable.html">Pregledaj tablicu →</a>
+    </div>
+</header>
+
+<main>
+    <section class="kartica">
+        <h2>Opis skupa podataka</h2>
+        <ul class="brojke">
+            <li><strong>15</strong> zapisa o bićima</li>
+            <li><strong>17</strong> atributa po zapisu</li>
+            <li><strong>10</strong> roditelj–dijete veza</li>
+            <li><strong>5</strong> razvojnih nizova</li>
+        </ul>
+        <p>
+            Skup sadrži 15 zapisa o izmišljenim bićima sa 17 atributa po zapisu te
+            10 usmjerenih roditelj–dijete veza raspoređenih u pet razvojnih nizova.
+            Podaci su pohranjeni u normaliziranoj PostgreSQL bazi (shema <code>lab_bica</code>).
+        </p>
+        <p class="napomena">
+            Bića i njihovi nazivi i opisi izvorno su osmišljeni za ovu vježbu. Razvojni nizovi tematski su
+            nadahnuti igrama Pokémon, ali skup ne sadrži službene likove, slike ni službene podatke te nije
+            povezan s vlasnicima te franšize.
+        </p>
+    </section>
+
+    <section class="kartica">
+        <h2>Dijelovi skupa podataka</h2>
+        <dl class="atributi">
+            <div><dt>Način razvoja</dt>
+                <dd>Način na koji izmišljena bića prelaze iz jedne forme u drugu (zasad samo jedan, „Sazrijevanje”).</dd></div>
+            <div><dt>Rijetkost</dt>
+                <dd>Koliko se često izmišljeno biće može susresti u prirodi.</dd></div>
+            <div><dt>Sposobnost</dt>
+                <dd>Posebne sposobnosti koje biće ima; neke su skrivene.</dd></div>
+            <div><dt>Stanište</dt>
+                <dd>Lokacija na kojoj se biće najčešće može susresti.</dd></div>
+            <div><dt>Tip bića</dt>
+                <dd>Karakteristika koja opisuje bića i grupira ih međusobno (primarni i sekundarni tip).</dd></div>
+            <div><dt>Vrsta uvjeta razvoja</dt>
+                <dd>Karakteristika koja opisuje uvjet razvoja bića (npr. minimalna razina).</dd></div>
+            <div><dt>Vrsta bića</dt>
+                <dd>Detalji o biću: kataloški broj, naziv, opis, prosječna visina i masa te osnovne statistike
+                    (zdravlje, napad, obrana, specijalni napad, specijalna obrana, brzina).</dd></div>
+        </dl>
+    </section>
+
+    <section class="kartica">
+        <h2>Svi atributi</h2>
+        <p>
+            Atributi jednog zapisa (biće) u CSV obliku. U JSON obliku tipovi, sposobnosti, statistike i
+            razvoj su ugniježđeni, kako je navedeno u zadnjem stupcu i opisano u <a href="schema.json">schema.json</a>.
+        </p>
+        <div class="omot-tablice">
+            <table class="tablica-atributa">
+                <thead>
+                    <tr><th>Atribut</th><th>Opis</th><th>Vrsta</th><th>U JSON-u</th></tr>
+                </thead>
+                <tbody>
+                    <tr><td><code>kataloski_broj</code></td><td>Jedinstveni redni broj bića u katalogu.</td><td>cijeli broj</td><td><code>kataloski_broj</code></td></tr>
+                    <tr><td><code>naziv</code></td><td>Jedinstveni naziv vrste bića.</td><td>tekst</td><td><code>naziv</code></td></tr>
+                    <tr><td><code>opis</code></td><td>Kratak opis bića.</td><td>tekst</td><td><code>opis</code></td></tr>
+                    <tr><td><code>visina_cm</code></td><td>Prosječna visina u centimetrima.</td><td>decimalni broj</td><td><code>visina_cm</code></td></tr>
+                    <tr><td><code>masa_kg</code></td><td>Prosječna masa u kilogramima.</td><td>decimalni broj</td><td><code>masa_kg</code></td></tr>
+                    <tr><td><code>staniste</code></td><td>Lokacija na kojoj se biće najčešće susreće.</td><td>tekst</td><td><code>staniste</code></td></tr>
+                    <tr><td><code>rijetkost</code></td><td>Koliko se često biće susreće (Uobičajena, Neuobičajena, Rijetka).</td><td>tekst</td><td><code>rijetkost</code></td></tr>
+                    <tr><td><code>primarni_tip</code></td><td>Glavni tip bića.</td><td>tekst</td><td><code>tipovi[]</code> (redni_broj 1)</td></tr>
+                    <tr><td><code>sekundarni_tip</code></td><td>Drugi tip bića, ako postoji.</td><td>tekst, može biti prazan</td><td><code>tipovi[]</code> (redni_broj 2)</td></tr>
+                    <tr><td><code>sposobnosti</code></td><td>Sposobnosti bića odvojene s „;”, skrivene su označene.</td><td>tekst</td><td><code>sposobnosti[]</code> (naziv, utor, skrivena)</td></tr>
+                    <tr><td><code>zdravlje</code></td><td>Osnovna vrijednost zdravlja (1–255).</td><td>cijeli broj</td><td><code>osnovne_statistike.zdravlje</code></td></tr>
+                    <tr><td><code>napad</code></td><td>Osnovna vrijednost napada (1–255).</td><td>cijeli broj</td><td><code>osnovne_statistike.napad</code></td></tr>
+                    <tr><td><code>obrana</code></td><td>Osnovna vrijednost obrane (1–255).</td><td>cijeli broj</td><td><code>osnovne_statistike.obrana</code></td></tr>
+                    <tr><td><code>specijalni_napad</code></td><td>Osnovna vrijednost specijalnog napada (1–255).</td><td>cijeli broj</td><td><code>osnovne_statistike.specijalni_napad</code></td></tr>
+                    <tr><td><code>specijalna_obrana</code></td><td>Osnovna vrijednost specijalne obrane (1–255).</td><td>cijeli broj</td><td><code>osnovne_statistike.specijalna_obrana</code></td></tr>
+                    <tr><td><code>brzina</code></td><td>Osnovna vrijednost brzine (1–255).</td><td>cijeli broj</td><td><code>osnovne_statistike.brzina</code></td></tr>
+                    <tr><td><code>roditelji</code></td><td>Bića iz kojih se ovo biće razvija.</td><td>tekst, može biti prazan</td><td><code>razvija_se_iz[].naziv_roditelja</code></td></tr>
+                    <tr><td><code>djeca</code></td><td>Bića u koja se ovo biće razvija.</td><td>tekst, može biti prazan</td><td><code>razvija_se_u[].naziv_djeteta</code></td></tr>
+                    <tr><td><code>uvjeti_razvoja</code></td><td>Razvojne veze s načinom razvoja i uvjetima (npr. minimalna razina).</td><td>tekst</td><td><code>razvija_se_iz[]</code>, <code>razvija_se_u[]</code> (nacin, uvjeti)</td></tr>
+                </tbody>
+            </table>
+        </div>
+    </section>
+
+    <section class="kartica">
+        <h2>Preuzimanje cijelog skupa</h2>
+        <ul class="preuzimanja">
+            <li>
+                <a class="gumb" href="izmisljena-bica.csv" download>CSV</a>
+                <span><code>izmisljena-bica.csv</code> – izravnani zapis, jedan redak po biću</span>
+            </li>
+            <li>
+                <a class="gumb" href="izmisljena-bica.json" download>JSON</a>
+                <span><code>izmisljena-bica.json</code> – ugniježđeni zapis s tipovima, sposobnostima i razvojem</span>
+            </li>
+            <li>
+                <a class="gumb gumb-obrub" href="schema.json">Schema</a>
+                <span><code>schema.json</code> – strojno čitljivi metapodaci (JSON Schema) za JSON oblik</span>
+            </li>
+        </ul>
+    </section>
+
+    <section class="kartica">
+        <h2>Pregled i filtriranje</h2>
+        <p>Tablica s pretraživanjem po svim ili odabranom atributu; podaci se čitaju izravno iz baze.</p>
+        <p><a class="gumb" href="datatable.html">Otvori tablicu →</a></p>
+    </section>
+
+    <section class="kartica">
+        <h2>Licencija i autor</h2>
+        <p>
+            Sadržaj je objavljen pod licencijom <a href="LICENSE">CC0 1.0 Universal</a>. Licencija se odnosi na
+            izvorni sadržaj ovog skupa i ne daje prava na Pokémon žigove, likove, slike ni druge materijale trećih strana.
+        </p>
+        <p>Autor: Viktorija Sturlic-Tupek</p>
+    </section>
+</main>
+</body>
+</html>

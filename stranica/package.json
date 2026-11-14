@@ -1,0 +1,19 @@
+{
+  "name": "orlab-izmisljena-bica",
+  "version": "2.0.0",
+  "description": "Web sučelje i API za otvoreni skup podataka Izmišljena bića (Otvoreno računarstvo, FER).",
+  "author": "Viktorija Sturlic-Tupek",
+  "license": "CC0-1.0",
+  "private": true,
+  "main": "server/server.js",
+  "scripts": {
+    "start": "node server/server.js"
+  },
+  "engines": {
+    "node": ">=20.12"
+  },
+  "dependencies": {
+    "express": "^4.22.3",
+    "pg": "^8.23.1"
+  }
+}

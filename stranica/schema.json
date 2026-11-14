@@ -1,0 +1,299 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://github.com/blueFlower11/orlab/blob/main/stranica/schema.json",
+  "title": "Izmišljena bića",
+  "description": "Otvoreni skup podataka o izvorno osmišljenim izmišljenim bićima s njihovim staništima, rijetkošću, tipovima, sposobnostima, osnovnim statistikama i razvojnim vezama.",
+  "type": "array",
+  "items": {
+    "type": "object",
+    "title": "Biće",
+    "description": "Objekt koji sadrži sve podatke o jednoj vrsti izmišljenog bića.",
+    "required": [
+      "kataloski_broj",
+      "naziv",
+      "opis",
+      "visina_cm",
+      "masa_kg",
+      "staniste",
+      "rijetkost",
+      "tipovi",
+      "sposobnosti",
+      "osnovne_statistike",
+      "razvija_se_iz",
+      "razvija_se_u"
+    ],
+    "properties": {
+      "kataloski_broj": {
+        "type": "integer",
+        "title": "Kataloški broj",
+        "description": "Jedinstveni redni broj bića u katalogu.",
+        "minimum": 1
+      },
+      "naziv": {
+        "type": "string",
+        "title": "Naziv",
+        "description": "Jedinstveni naziv vrste bića."
+      },
+      "opis": {
+        "type": "string",
+        "title": "Opis",
+        "description": "Kratak tekstualni opis bića."
+      },
+      "visina_cm": {
+        "type": "number",
+        "title": "Visina (cm)",
+        "description": "Prosječna visina bića u centimetrima.",
+        "exclusiveMinimum": 0
+      },
+      "masa_kg": {
+        "type": "number",
+        "title": "Masa (kg)",
+        "description": "Prosječna masa bića u kilogramima.",
+        "exclusiveMinimum": 0
+      },
+      "staniste": {
+        "type": "string",
+        "title": "Stanište",
+        "description": "Lokacija na kojoj se biće najčešće može susresti."
+      },
+      "rijetkost": {
+        "type": "string",
+        "title": "Rijetkost",
+        "description": "Koliko se često biće može susresti u prirodi.",
+        "enum": [
+          "Uobičajena",
+          "Neuobičajena",
+          "Rijetka"
+        ]
+      },
+      "tipovi": {
+        "type": "array",
+        "title": "Tipovi",
+        "description": "Primarni i (opcionalno) sekundarni tip bića.",
+        "minItems": 1,
+        "maxItems": 2,
+        "items": {
+          "type": "object",
+          "title": "Tip",
+          "description": "Jedan tip bića s redoslijedom.",
+          "required": [
+            "redni_broj",
+            "naziv"
+          ],
+          "properties": {
+            "redni_broj": {
+              "type": "integer",
+              "title": "Redni broj",
+              "description": "1 za primarni, 2 za sekundarni tip.",
+              "enum": [
+                1,
+                2
+              ]
+            },
+            "naziv": {
+              "type": "string",
+              "title": "Naziv tipa",
+              "description": "Naziv tipa bića koji grupira bića prema zajedničkoj karakteristici."
+            }
+          }
+        }
+      },
+      "sposobnosti": {
+        "type": "array",
+        "title": "Sposobnosti",
+        "description": "Posebne sposobnosti koje biće ima.",
+        "items": {
+          "type": "object",
+          "title": "Sposobnost",
+          "description": "Jedna sposobnost bića.",
+          "required": [
+            "naziv",
+            "utor",
+            "skrivena"
+          ],
+          "properties": {
+            "naziv": {
+              "type": "string",
+              "title": "Naziv sposobnosti",
+              "description": "Naziv sposobnosti."
+            },
+            "utor": {
+              "type": "integer",
+              "title": "Utor",
+              "description": "Redni broj utora u kojem se sposobnost nalazi.",
+              "minimum": 1
+            },
+            "skrivena": {
+              "type": "boolean",
+              "title": "Skrivena",
+              "description": "Je li sposobnost skrivena."
+            }
+          }
+        }
+      },
+      "osnovne_statistike": {
+        "type": "object",
+        "title": "Osnovne statistike",
+        "description": "Osnovne borbene vrijednosti bića u rasponu od 1 do 255.",
+        "required": [
+          "zdravlje",
+          "napad",
+          "obrana",
+          "specijalni_napad",
+          "specijalna_obrana",
+          "brzina"
+        ],
+        "properties": {
+          "zdravlje": {
+            "type": "integer",
+            "title": "Zdravlje",
+            "description": "Osnovna vrijednost zdravlja.",
+            "minimum": 1,
+            "maximum": 255
+          },
+          "napad": {
+            "type": "integer",
+            "title": "Napad",
+            "description": "Osnovna vrijednost napada.",
+            "minimum": 1,
+            "maximum": 255
+          },
+          "obrana": {
+            "type": "integer",
+            "title": "Obrana",
+            "description": "Osnovna vrijednost obrane.",
+            "minimum": 1,
+            "maximum": 255
+          },
+          "specijalni_napad": {
+            "type": "integer",
+            "title": "Specijalni napad",
+            "description": "Osnovna vrijednost specijalnog napada.",
+            "minimum": 1,
+            "maximum": 255
+          },
+          "specijalna_obrana": {
+            "type": "integer",
+            "title": "Specijalna obrana",
+            "description": "Osnovna vrijednost specijalne obrane.",
+            "minimum": 1,
+            "maximum": 255
+          },
+          "brzina": {
+            "type": "integer",
+            "title": "Brzina",
+            "description": "Osnovna vrijednost brzine.",
+            "minimum": 1,
+            "maximum": 255
+          }
+        }
+      },
+      "razvija_se_iz": {
+        "type": "array",
+        "title": "Razvija se iz",
+        "description": "Bića iz kojih se ovo biće razvija (roditelji).",
+        "items": {
+          "type": "object",
+          "title": "Roditeljska veza",
+          "description": "Razvoj iz roditeljskog bića u ovo biće.",
+          "required": [
+            "naziv_roditelja",
+            "nacin",
+            "uvjeti"
+          ],
+          "properties": {
+            "naziv_roditelja": {
+              "type": "string",
+              "title": "Naziv roditelja",
+              "description": "Naziv bića iz kojeg se ovo biće razvija."
+            },
+            "nacin": {
+              "type": "string",
+              "title": "Način razvoja",
+              "description": "Način na koji biće prelazi iz jedne forme u drugu."
+            },
+            "uvjeti": {
+              "type": "array",
+              "title": "Uvjeti razvoja",
+              "description": "Uvjeti koji moraju biti ispunjeni za razvoj.",
+              "items": {
+                "type": "object",
+                "title": "Uvjet razvoja",
+                "description": "Jedan uvjet razvoja.",
+                "required": [
+                  "vrsta",
+                  "vrijednost"
+                ],
+                "properties": {
+                  "vrsta": {
+                    "type": "string",
+                    "title": "Vrsta uvjeta",
+                    "description": "Vrsta uvjeta razvoja, npr. minimalna razina."
+                  },
+                  "vrijednost": {
+                    "type": "string",
+                    "title": "Vrijednost",
+                    "description": "Vrijednost uvjeta zapisana kao tekst."
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "razvija_se_u": {
+        "type": "array",
+        "title": "Razvija se u",
+        "description": "Bića u koja se ovo biće razvija (djeca).",
+        "items": {
+          "type": "object",
+          "title": "Dječja veza",
+          "description": "Razvoj iz ovog bića u dječje biće.",
+          "required": [
+            "naziv_djeteta",
+            "nacin",
+            "uvjeti"
+          ],
+          "properties": {
+            "naziv_djeteta": {
+              "type": "string",
+              "title": "Naziv djeteta",
+              "description": "Naziv bića u koje se ovo biće razvija."
+            },
+            "nacin": {
+              "type": "string",
+              "title": "Način razvoja",
+              "description": "Način na koji biće prelazi iz jedne forme u drugu."
+            },
+            "uvjeti": {
+              "type": "array",
+              "title": "Uvjeti razvoja",
+              "description": "Uvjeti koji moraju biti ispunjeni za razvoj.",
+              "items": {
+                "type": "object",
+                "title": "Uvjet razvoja",
+                "description": "Jedan uvjet razvoja.",
+                "required": [
+                  "vrsta",
+                  "vrijednost"
+                ],
+                "properties": {
+                  "vrsta": {
+                    "type": "string",
+                    "title": "Vrsta uvjeta",
+                    "description": "Vrsta uvjeta razvoja, npr. minimalna razina."
+                  },
+                  "vrijednost": {
+                    "type": "string",
+                    "title": "Vrijednost",
+                    "description": "Vrijednost uvjeta zapisana kao tekst."
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
